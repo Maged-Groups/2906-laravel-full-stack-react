@@ -68,14 +68,16 @@ class PostController extends Controller
     {
 
         $data = $request->validated();
-        return $data;
 
-        // Temporary solution
-        $data['user_id'] = 1;
+        $data['user_id'] = auth()->user()->id;
 
+        // return $data;
         $added_post = Post::create($data);
 
-        return $added_post;
+        if ($added_post)
+            return redirect()->route('posts.index')->with('success', 'Post Added Successfully');
+
+        return redirect()->route('posts.create')->with('fail', 'Post faild to add, reload the page and try again');
 
     }
 
