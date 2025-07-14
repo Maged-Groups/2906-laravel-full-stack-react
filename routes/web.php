@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', function () {
-    return Inertia::render('welcome');
+    return view('index');
 })->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -17,6 +17,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 require __DIR__ . '/settings.php';
 require __DIR__ . '/auth.php';
 
+Route::get('test', function () {
+    return view('test');
+});
 
 Route::resources(
     [

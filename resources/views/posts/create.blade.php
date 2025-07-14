@@ -1,16 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layout.main')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-    @vite('resources/css/app.css')
-</head>
-
-<body>
-
+@section('content')
     <form class="max-w-sm mx-auto" method="post" action="{{ route('posts.store') }}">
 
         @csrf
@@ -20,8 +10,8 @@
         <div class="mb-2">
             <label for="title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Post
                 title</label>
-            <input type="text" id="title" name="title" minlength="10" maxlength="255"
-                value="{{ old('title') }}" required autofocus aria-describedby="helper-text-explanation"
+            <input type="text" id="title" name="title" minlength="10" maxlength="255" value="{{ old('title') }}"
+                required autofocus aria-describedby="helper-text-explanation"
                 class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Post Title">
             <p class="text-red-500">
@@ -57,7 +47,7 @@
                 <option>( Select Post Status )</option>
 
                 @foreach ($post_statuses as $post_status)
-                    <option @if (old('post_status_id') == $post_status->id) selected @endif value="{{ $post_status->id }}">
+                    <option @selected(old('post_status_id') == $post_status->id) value="{{ $post_status->id }}">
                         {{ $post_status->type }}</option>
                 @endforeach
             </select>
@@ -95,7 +85,4 @@
         @endif
     </form>
 
-    <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
-</body>
-
-</html>
+@endsection
