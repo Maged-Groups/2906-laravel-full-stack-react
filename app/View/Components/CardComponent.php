@@ -4,6 +4,7 @@ namespace App\View\Components;
 
 use Closure;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Log;
 use Illuminate\View\Component;
 
 class CardComponent extends Component
@@ -16,6 +17,12 @@ class CardComponent extends Component
 
     public function __construct($title = null)
     {
+        Log::info('CardComponent Report', [
+            'title' => $title,
+            'title length' => strlen($title),
+        ]);
+
+
         if ($title === null)
             return;
 
