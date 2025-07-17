@@ -1,7 +1,8 @@
-@extends('layout.main')
+@extends('layout.inner')
 
-@section('title', 'Posts Page')
+@section('page_title', 'Posts Page | My Website')
 
+@section('header_title', 'Posts Page')
 
 @section('content')
     <div class="grid gap-3">
@@ -20,11 +21,17 @@
                     </a>
                 @else
                     <div class="p-3 bg-green-400">
-                        <p>Please Login to be able to add posts</p>
+                        <p>Please <x-button text='Login' size='lg' /> to be able to add posts</p>
                     </div>
                 @endauth
 
-
+                <div>
+                    <x-button text='Large Button' size='lg' />
+                    <x-button text='Cancel' variant='danger' />
+                    <x-button text='Print' variant='outline-success' />
+                    <x-button text='Delete' variant='danger' />
+                    <x-button text='Save' variant='success' />
+                </div>
             </div>
         </div>
 
@@ -97,6 +104,4 @@
 
         </div>
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
 @endsection
