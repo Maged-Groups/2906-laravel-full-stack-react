@@ -10,6 +10,7 @@ use App\Http\Requests\UpdatePostRequest;
 use App\Models\PostStatus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 
 class PostController extends Controller
@@ -20,9 +21,18 @@ class PostController extends Controller
     public function index()
     {
 
-        $posts = Post::withCount('reactions')->with('user')->get();
+        // Keep data in the cache for 1 minute
+        // $ttl = 365 * 24 * 60 * 60;
+        $ttl = 60;
+        $posts = Cache::remember('all_posts', $ttl, function () {
+                return Post::with('user')->orderByDesc('id')->limit(5)->get();
+        });
 
+        // $posts = DB::table('posts')
+        // ->join('users', 'users.id', 'user_id')
+        // ->get();
         // return $posts;
+
         // return view('posts.index', ['posts' => $posts]);
         return view('posts.index', compact('posts'));
 
@@ -75,6 +85,10 @@ class PostController extends Controller
         $added_post = Post::create($data);
 
         if ($added_post)
+
+        // Clear all_posts cache
+        Cache::forget('all_posts');
+
             return redirect()->route('posts.index')->with('success', 'Post Added Successfully');
 
         return redirect()->route('posts.create')->with('fail', 'Post faild to add, reload the page and try again');

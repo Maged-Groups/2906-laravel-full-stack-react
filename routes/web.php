@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\CommentController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -21,8 +22,15 @@ Route::get('test', function () {
     return view('test');
 });
 
-Route::resources(
-    [
-        'posts' => PostController::class,
-    ]
+Route::middleware('throttle:10,1')->group(function () {
+
+    Route::resources(
+        [
+            'posts' => PostController::class,
+            'comments' => CommentController::class,
+        ]
+    );
+}
 );
+
+
